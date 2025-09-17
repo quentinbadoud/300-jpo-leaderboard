@@ -36,4 +36,4 @@ jobs:
         run: npm ci
 
       - name: Run ESLint (fail on warnings)
-        run: npm run lint
+        run: npx eslint
