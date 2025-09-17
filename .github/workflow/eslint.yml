@@ -1,0 +1,39 @@
+name: ESLint
+
+on:
+  push:
+    paths:
+      - "**/*.js"
+      - "**/*.mjs"
+      - ".eslintrc*"
+      - "package.json"
+      - "package-lock.json"
+  pull_request:
+    paths:
+      - "**/*.js"
+      - "**/*.mjs"
+      - ".eslintrc*"
+      - "package.json"
+      - "package-lock.json"
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint (fail on warnings)
+        run: npm run lint
