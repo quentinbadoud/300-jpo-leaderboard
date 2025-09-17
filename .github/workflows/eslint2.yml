@@ -2,19 +2,9 @@ name: ESLint
 
 on:
   push:
-    paths:
-      - "**/*.js"
-      - "**/*.mjs"
-      - ".eslintrc*"
-      - "package.json"
-      - "package-lock.json"
+
   pull_request:
-    paths:
-      - "**/*.js"
-      - "**/*.mjs"
-      - ".eslintrc*"
-      - "package.json"
-      - "package-lock.json"
+
 
 permissions:
   contents: read
@@ -35,5 +25,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run ESLint (fail on warnings)
+      - name: Run ESLint (fail on warnings )
         run: npx eslint
