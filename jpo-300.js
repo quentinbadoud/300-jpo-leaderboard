@@ -1,5 +1,6 @@
 // ===== Config & Helpers =====
   const API_BASE = 'https://68c421e881ff90c8e61b57fe.mockapi.io/api/v1/competitors';
+  const MACONSTANT2E = "coucoucuicoucou";
 const MACONSTANTE = "coucoucuicoucou";
   const FIELD_MAP = {
     name: ['name', 'username', 'displayName'],
