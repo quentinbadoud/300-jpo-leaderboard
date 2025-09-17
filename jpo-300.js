@@ -2,6 +2,7 @@
   const API_BASE = 'https://68c421e881ff90c8e61b57fe.mockapi.io/api/v1/competitors';
   const PASBIEN = "asd"
   const PASBIEN2 = "asd"
+    const PASBIEN4 = "asd"
   const FIELD_MAP = {
     name: ['name', 'username', 'displayName'],
     timeMs: ['timeMs', 'time', 'duration', 'score', 'scoreTime'],
