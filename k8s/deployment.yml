@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jpo-leaderboard
+  labels:
+    app: jpo-leaderboard
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jpo-leaderboard
+  template:
+    metadata:
+      labels:
+        app: jpo-leaderboard
+    spec:
+      containers:
+        - name: jpo-leaderboard
+          image: m324demoacrqba.azurecr.io/jpo-leaderboard:latest
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: acr-secret   # pour authentifier ton ACR si nécessaire
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jpo-leaderboard-service
+spec:
+  selector:
+    app: jpo-leaderboard
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  type: NodePort   # Change en LoadBalancer si ton SKS a un LB intégré
