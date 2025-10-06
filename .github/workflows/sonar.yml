@@ -1,0 +1,36 @@
+name: SonarCloud
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Cache Sonar packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v6
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: .
+          # args: -Dsonar.qualitygate.wait=true
+
+      - name: Quality Gate
+        uses: SonarSource/sonarqube-quality-gate-action@v1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
