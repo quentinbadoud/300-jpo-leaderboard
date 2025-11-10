@@ -19,7 +19,7 @@ spec:
         - name: acr-pull
       containers:
         - name: app
-          image: m324demoacrqba.azurecr.io/jpo-leaderboard:latest
+          image: m324demoacrqba.azurecr.io/jpo-leaderboard:sha-ccedf5cd8b12d843ec7f93e621e7c1ddd3f640f6
           ports:
             - name: http
               containerPort: 80
