@@ -4,6 +4,9 @@ on:
   push:
     branches: [ "main" ]
     tags: [ "v*.*.*" ]
+    # évite de re-déclencher la CI quand seul le manifest est modifié par le bot
+    paths-ignore:
+      - "k8s/deployment.yml"
   workflow_dispatch:
 
 env:
