@@ -7,7 +7,7 @@ export const options = {
 };
 
 export default function () {
-  const res = http.get('http://localhost/');
+  const res = http.get('http://localhost:5500/');
   check(res, {
     'status est 200': (r) => r.status === 200,
     'réponse < 500ms': (r) => r.timings.duration < 500,

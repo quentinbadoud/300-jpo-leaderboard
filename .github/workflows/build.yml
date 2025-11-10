@@ -50,3 +50,43 @@ jobs:
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          
+  bump-manifest:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute image tag
+        id: tag
+        run: |
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            TAG="${GITHUB_REF_NAME}"
+          else
+            TAG="sha-${GITHUB_SHA}"
+          fi
+          echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Update image tag with sed
+        env:
+          TAG: ${{ steps.tag.outputs.TAG }}
+        run: |
+          FILE="k8s/deployment.yml"
+          sed -i "s|image: m324demoacrqba.azurecr.io/jpo-leaderboard:.*|image: m324demoacrqba.azurecr.io/jpo-leaderboard:${TAG}|" "$FILE"
+          grep "image:" "$FILE"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "deploy: use image m324demoacrqba.azurecr.io/jpo-leaderboard:${{ steps.tag.outputs.TAG }}"
+          title: "Deploy ${{ steps.tag.outputs.TAG }}"
+          body: "Bump image tag to `${{ steps.tag.outputs.TAG }}` for Argo CD sync."
+          branch: "deploy/${{ steps.tag.outputs.TAG }}"
+          base: "main"
