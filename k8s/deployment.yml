@@ -48,7 +48,6 @@ metadata:
   name: jpo-leaderboard
   labels:
     app: jpo-leaderboard
-    test: jpo-leaderboard
 spec:
   selector:
     app: jpo-leaderboard
